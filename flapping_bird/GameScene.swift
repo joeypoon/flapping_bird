@@ -12,9 +12,13 @@ class GameScene: SKScene {
     
     var bg = SKSpriteNode()
     var bird = SKSpriteNode()
+    var topPipe = SKSpriteNode()
+    var bottomPipe = SKSpriteNode()
     
     override func didMoveToView(view: SKView) {
+        createGround()
         createBg()
+        createTopPipe()
         createBird()
     }
     
@@ -43,13 +47,34 @@ class GameScene: SKScene {
         let makeBirdFlap = SKAction.repeatActionForever(animation)
         
         bird = SKSpriteNode(texture: birdTexture)
+        
+        bird.physicsBody = SKPhysicsBody(circleOfRadius: birdTexture.size().height/2)
+        bird.physicsBody!.dynamic = true
+        
         bird.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
         bird.runAction(makeBirdFlap)
         
         self.addChild(bird)
     }
     
+    func createGround() {
+        let ground = SKNode()
+        ground.position = CGPointMake(0, 0)
+        ground.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(self.frame.size.width, 1))
+        ground.physicsBody!.dynamic = false
+        self.addChild(ground)
+    }
+    
+    func createTopPipe() {
+        let pipeTexture = SKTexture(imageNamed: "pipe1.png")
+        let topPipe = SKSpriteNode(texture: pipeTexture)
+        topPipe.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) + 1000)
+        self.addChild(topPipe)
+    }
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        bird.physicsBody!.velocity = CGVectorMake(0, 0)
+        bird.physicsBody!.applyImpulse(CGVectorMake(0, 40))
     }
    
     override func update(currentTime: CFTimeInterval) {
