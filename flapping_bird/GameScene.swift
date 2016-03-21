@@ -16,13 +16,22 @@ class GameScene: SKScene {
     var bottomPipe = SKSpriteNode()
     
     override func didMoveToView(view: SKView) {
-        createGround()
         createBg()
-        createTopPipe()
-        createBottomPipe()
+        createGround()
         createBird()
+        createPipes()
     }
     
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        bird.physicsBody!.velocity = CGVectorMake(0, 0)
+        bird.physicsBody!.applyImpulse(CGVectorMake(0, 40))
+    }
+    
+    override func update(currentTime: CFTimeInterval) {
+    }
+    
+    
+    //custom
     func createBg() {
         let bgTexture = SKTexture(imageNamed: "bg.png")
         let moveBg = SKAction.moveByX(-bgTexture.size().width, y: 0, duration: 9)
@@ -54,6 +63,7 @@ class GameScene: SKScene {
         
         bird.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
         bird.runAction(makeBirdFlap)
+        bird.zPosition = 1
         
         self.addChild(bird)
     }
@@ -66,25 +76,19 @@ class GameScene: SKScene {
         self.addChild(ground)
     }
     
-    func createTopPipe() {
-        let pipeTexture = SKTexture(imageNamed: "pipe1.png")
-        let topPipe = SKSpriteNode(texture: pipeTexture)
-        topPipe.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) + 1000)
+    func createPipes() {
+        let gapHeight = bird.texture!.size().height * 4
+        let movementAmount = arc4random() % UInt32(self.frame.size.height/2)
+        let pipeOffset = CGFloat(movementAmount) - self.frame.size.height/4
+        
+        let topPipeTexture = SKTexture(imageNamed: "pipe1.png")
+        let topPipe = SKSpriteNode(texture: topPipeTexture)
+        topPipe.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) + topPipe.size.height/2 + gapHeight/2 + pipeOffset)
         self.addChild(topPipe)
-    }
-    
-    func createBottomPipe() {
-        let pipeTexture = SKTexture(imageNamed: "pipe2.png")
-        let bottomPipe = SKSpriteNode(texture: pipeTexture)
-        bottomPipe.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) - 1000)
+        
+        let bottomPipeTexture = SKTexture(imageNamed: "pipe2.png")
+        let bottomPipe = SKSpriteNode(texture: bottomPipeTexture)
+        bottomPipe.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) - bottomPipe.size.height/2 - gapHeight/2 + pipeOffset)
         self.addChild(bottomPipe)
-    }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        bird.physicsBody!.velocity = CGVectorMake(0, 0)
-        bird.physicsBody!.applyImpulse(CGVectorMake(0, 40))
-    }
-   
-    override func update(currentTime: CFTimeInterval) {
     }
 }
