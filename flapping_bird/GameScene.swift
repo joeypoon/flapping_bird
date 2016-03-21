@@ -19,6 +19,7 @@ class GameScene: SKScene {
         createGround()
         createBg()
         createTopPipe()
+        createBottomPipe()
         createBird()
     }
     
@@ -70,6 +71,13 @@ class GameScene: SKScene {
         let topPipe = SKSpriteNode(texture: pipeTexture)
         topPipe.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) + 1000)
         self.addChild(topPipe)
+    }
+    
+    func createBottomPipe() {
+        let pipeTexture = SKTexture(imageNamed: "pipe2.png")
+        let bottomPipe = SKSpriteNode(texture: pipeTexture)
+        bottomPipe.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) - 1000)
+        self.addChild(bottomPipe)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
