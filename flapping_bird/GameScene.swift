@@ -11,14 +11,19 @@ import SpriteKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var gameActive = false
+    var gameOver = false
     var bg = SKSpriteNode()
     var bird = SKSpriteNode()
     var topPipe = SKSpriteNode()
     var bottomPipe = SKSpriteNode()
+    var score = 0
+    var scoreLabel = SKLabelNode()
+    var gameOverLabel = SKLabelNode()
     
     enum ColliderType: UInt32 {
         case Bird = 1
         case Object = 2
+        case PipeGap = 4
     }
     
     override func didMoveToView(view: SKView) {
@@ -28,6 +33,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createBg()
         createGround()
         createBird()
+        createScoreLabel()
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -44,7 +50,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        gameOver()
+        if contact.bodyA.categoryBitMask == ColliderType.PipeGap.rawValue || contact.bodyB.categoryBitMask == ColliderType.PipeGap.rawValue {
+            score++
+            scoreLabel.text = String(score)
+        } else {
+            if !gameOver {
+                gameEnd()
+            }
+        }
     }
     
     
@@ -187,23 +200,65 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //add pipes to frame
         self.addChild(topPipe)
         self.addChild(bottomPipe)
-
+        
+        //create score gap
+        let gap = SKNode()
+        
+        //center between pipes
+        gap.position = CGPoint(x: CGRectGetMidX(self.frame) + self.frame.size.width, y: CGRectGetMidY(self.frame) + pipeOffset)
+        gap.runAction(pipeMovement)
+        
+        //physics
+        gap.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(topPipe.size.width, gapHeight))
+        
+        //no gravity
+        gap.physicsBody!.dynamic = false
+        
+        //collision detection
+        gap.physicsBody!.categoryBitMask = ColliderType.PipeGap.rawValue
+        gap.physicsBody!.contactTestBitMask = ColliderType.Bird.rawValue
+        gap.physicsBody!.collisionBitMask = ColliderType.PipeGap.rawValue
+        
+        self.addChild(gap)
+    }
+    
+    func createScoreLabel() {
+        scoreLabel.fontName = "Helvetica"
+        scoreLabel.fontSize = 60
+        scoreLabel.fontColor = UIColor.orangeColor()
+        scoreLabel.text = "0"
+        scoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), self.frame.size.height - 70)
+        scoreLabel.zPosition = 1
+        self.addChild(scoreLabel)
+    }
+    
+    func createGameOverLabel() {
+        gameOverLabel.fontName = "Helvetica"
+        gameOverLabel.fontSize = 30
+        gameOverLabel.fontColor = UIColor.orangeColor()
+        gameOverLabel.text = "Game Over"
+        gameOverLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
+        gameOverLabel.zPosition = 100
+        self.addChild(gameOverLabel)
     }
     
     func startGame() {
-        gameActive = true
-        self.speed = 1
-        
-        //add gravity
-        bird.physicsBody!.dynamic = true
-        
-        //keep creating pipes
-        _ = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: Selector("createPipes"), userInfo: nil, repeats: true)
+        if !gameOver {
+            gameActive = true
+            self.speed = 1
+            
+            //add gravity
+            bird.physicsBody!.dynamic = true
+            
+            //keep creating pipes
+            _ = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: Selector("createPipes"), userInfo: nil, repeats: true)
+        }
     }
     
-    func gameOver() {
-        gameActive = false
+    func gameEnd() {
         self.speed = 0
-        print("Game Over")
+        createGameOverLabel()
+        gameActive = false
+        gameOver = true
     }
 }
