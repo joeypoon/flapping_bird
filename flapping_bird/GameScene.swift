@@ -22,6 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMoveToView(view: SKView) {
+        self.speed = 0
         self.physicsWorld.contactDelegate = self
         
         createBg()
@@ -43,7 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        print("Contact!")
+        gameOver()
     }
     
     
@@ -99,6 +100,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //add physics
         bird.physicsBody = SKPhysicsBody(circleOfRadius: bird.size.height/2)
+        
+        //no gravity until start
+        bird.physicsBody!.dynamic = false
         
         //collision detection
         bird.physicsBody!.categoryBitMask = ColliderType.Bird.rawValue
@@ -188,11 +192,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func startGame() {
         gameActive = true
+        self.speed = 1
         
         //add gravity
         bird.physicsBody!.dynamic = true
         
         //keep creating pipes
         _ = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: Selector("createPipes"), userInfo: nil, repeats: true)
+    }
+    
+    func gameOver() {
+        gameActive = false
+        self.speed = 0
+        print("Game Over")
     }
 }
