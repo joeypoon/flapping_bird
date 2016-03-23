@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D3169E5A1CA257F400DAD2BB /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3169E591CA257F400DAD2BB /* GameKit.framework */; };
 		D3CD6ABD1C9FAF0600C81C60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3CD6ABC1C9FAF0600C81C60 /* AppDelegate.swift */; };
 		D3CD6ABF1C9FAF0600C81C60 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D3CD6ABE1C9FAF0600C81C60 /* GameScene.sks */; };
 		D3CD6AC11C9FAF0600C81C60 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3CD6AC01C9FAF0600C81C60 /* GameScene.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D3169E591CA257F400DAD2BB /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		D3CD6AB91C9FAF0600C81C60 /* flapping_bird.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flapping_bird.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3CD6ABC1C9FAF0600C81C60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3CD6ABE1C9FAF0600C81C60 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -43,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3169E5A1CA257F400DAD2BB /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +55,7 @@
 		D3CD6AB01C9FAF0600C81C60 = {
 			isa = PBXGroup;
 			children = (
+				D3169E591CA257F400DAD2BB /* GameKit.framework */,
 				D3CD6ABB1C9FAF0600C81C60 /* flapping_bird */,
 				D3CD6ABA1C9FAF0600C81C60 /* Products */,
 			);
@@ -313,6 +317,7 @@
 				D3CD6AD11C9FAF0600C81C60 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

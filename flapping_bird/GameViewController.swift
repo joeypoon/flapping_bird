@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GameKit
 import SpriteKit
 
 class GameViewController: UIViewController {
@@ -15,6 +16,8 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
 
         if let scene = GameScene(fileNamed:"GameScene") {
+            authenticateLocalPlayer()
+            
             // Configure the view.
             let skView = self.view as! SKView
             skView.showsFPS = true
@@ -49,5 +52,16 @@ class GameViewController: UIViewController {
 
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    
+    func authenticateLocalPlayer() {
+        let localPlayer = GKLocalPlayer.localPlayer()
+        localPlayer.authenticateHandler = {(viewController, error) -> Void in
+            if let viewController = viewController {
+                self.presentViewController(viewController, animated: true, completion: nil)
+            } else {
+                print(GKLocalPlayer.localPlayer().authenticated)
+            }
+        }
     }
 }

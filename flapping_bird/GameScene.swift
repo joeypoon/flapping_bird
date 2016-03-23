@@ -19,6 +19,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score = 0
     var scoreLabel = SKLabelNode()
     var gameOverLabel = SKLabelNode()
+    var oldPipes = SKSpriteNode()
     
     enum ColliderType: UInt32 {
         case Bird = 1
@@ -34,9 +35,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createGround()
         createBird()
         createScoreLabel()
-        
-        //keep creating pipes
-        _ = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(GameScene.createPipes), userInfo: nil, repeats: true)
+        createPipes()
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -60,6 +59,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == ColliderType.PipeGap.rawValue || contact.bodyB.categoryBitMask == ColliderType.PipeGap.rawValue {
             score += 1
             scoreLabel.text = String(score)
+            removePipes()
+            createPipes()
         } else {
             if !gameOver {
                 gameEnd()
@@ -248,6 +249,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(gameOverLabel)
     }
     
+    func removePipes() {
+        topPipe.removeFromParent()
+        bottomPipe.removeFromParent()
+    }
+    
     func startGame() {
         if !gameOver {
             
@@ -274,6 +280,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createGround()
         createBird()
         createScoreLabel()
+        createPipes()
         gameOver = false
     }
 }
