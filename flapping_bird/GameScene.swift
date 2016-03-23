@@ -51,7 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBeginContact(contact: SKPhysicsContact) {
         if contact.bodyA.categoryBitMask == ColliderType.PipeGap.rawValue || contact.bodyB.categoryBitMask == ColliderType.PipeGap.rawValue {
-            score++
+            score += 1
             scoreLabel.text = String(score)
         } else {
             if !gameOver {
@@ -77,13 +77,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let moveBgForever = SKAction.repeatActionForever(SKAction.sequence([moveBg, replaceBg]))
         
         //create bg 3 times to fill space
-        for var i: CGFloat = 0; i < 3; i++ {
+        for i in 1...3 {
             
             //create from texture
             bg = SKSpriteNode(texture: bgTexture)
             
             //position bg
-            bg.position = CGPoint(x: bgTexture.size().width/2 + bgTexture.size().width * i, y: CGRectGetMidY(self.frame))
+            bg.position = CGPoint(x: bgTexture.size().width/2 + bgTexture.size().width * CGFloat(i), y: CGRectGetMidY(self.frame))
             
             //set height
             bg.size.height = self.frame.height
@@ -251,7 +251,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             bird.physicsBody!.dynamic = true
             
             //keep creating pipes
-            _ = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: Selector("createPipes"), userInfo: nil, repeats: true)
+            _ = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(GameScene.createPipes), userInfo: nil, repeats: true)
         }
     }
     
