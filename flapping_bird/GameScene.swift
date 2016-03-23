@@ -7,8 +7,9 @@
 //
 
 import SpriteKit
+import GameKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate {
     
     var gameActive = false
     var gameOver = false
@@ -252,6 +253,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func removePipes() {
         topPipe.removeFromParent()
         bottomPipe.removeFromParent()
+    }
+    
+    func saveHighScore(score: Int) {
+        if GKLocalPlayer.localPlayer().authenticated {
+            let scoreReporter = GKScore(leaderboardIdentifier: "")
+            scoreReporter.value = Int64(score)
+            let scoreArray: [GKScore] = [scoreReporter]
+            GKScore.reportScores(scoreArray, withCompletionHandler: { (error: NSError?) in
+                if error != nil {
+                    print("error")
+                }
+            })
+        }
+    }
+    
+    func showLeaderBoard() {
+        let vc = self.view?.window?.rootViewController
+        let gc = GKGameCenterViewController()
+        gc.gameCenterDelegate = self
+        vc?.presentViewController(gc, animated: true, completion: nil)
+    }
+    
+    //called when game center interface closed
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
     }
     
     func startGame() {

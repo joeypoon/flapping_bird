@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3CD6AB81C9FAF0600C81C60"
-               BuildableName = "flapping_bird.app"
-               BlueprintName = "flapping_bird"
-               ReferencedContainer = "container:flapping_bird.xcodeproj">
+               BuildableName = "Flapping Bird.app"
+               BlueprintName = "Flapping Bird"
+               ReferencedContainer = "container:Flapping Bird.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3CD6AB81C9FAF0600C81C60"
-            BuildableName = "flapping_bird.app"
-            BlueprintName = "flapping_bird"
-            ReferencedContainer = "container:flapping_bird.xcodeproj">
+            BuildableName = "Flapping Bird.app"
+            BlueprintName = "Flapping Bird"
+            ReferencedContainer = "container:Flapping Bird.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3CD6AB81C9FAF0600C81C60"
-            BuildableName = "flapping_bird.app"
-            BlueprintName = "flapping_bird"
-            ReferencedContainer = "container:flapping_bird.xcodeproj">
+            BuildableName = "Flapping Bird.app"
+            BlueprintName = "Flapping Bird"
+            ReferencedContainer = "container:Flapping Bird.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3CD6AB81C9FAF0600C81C60"
-            BuildableName = "flapping_bird.app"
-            BlueprintName = "flapping_bird"
-            ReferencedContainer = "container:flapping_bird.xcodeproj">
+            BuildableName = "Flapping Bird.app"
+            BlueprintName = "Flapping Bird"
+            ReferencedContainer = "container:Flapping Bird.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

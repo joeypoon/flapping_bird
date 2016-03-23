@@ -14,10 +14,10 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        authenticateLocalPlayer()
+        
         if let scene = GameScene(fileNamed:"GameScene") {
-            authenticateLocalPlayer()
-            
             // Configure the view.
             let skView = self.view as! SKView
             skView.showsFPS = true
