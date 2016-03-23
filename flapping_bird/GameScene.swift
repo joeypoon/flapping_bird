@@ -34,16 +34,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createGround()
         createBird()
         createScoreLabel()
+        
+        //keep creating pipes
+        _ = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(GameScene.createPipes), userInfo: nil, repeats: true)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if gameActive == false {
+        if !gameActive {
             startGame()
+        } else {
+            //bird movement on tap
+            bird.physicsBody!.velocity = CGVectorMake(0, 0)
+            bird.physicsBody!.applyImpulse(CGVectorMake(0, 70))
         }
         
-        //bird movement on tap
-        bird.physicsBody!.velocity = CGVectorMake(0, 0)
-        bird.physicsBody!.applyImpulse(CGVectorMake(0, 70))
+        if gameOver {
+            restartGame()
+        }
     }
     
     override func update(currentTime: CFTimeInterval) {
@@ -77,8 +84,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let moveBgForever = SKAction.repeatActionForever(SKAction.sequence([moveBg, replaceBg]))
         
         //create bg 3 times to fill space
-        for i in 1...3 {
-            
+        for i in 0..<3 {
             //create from texture
             bg = SKSpriteNode(texture: bgTexture)
             
@@ -209,7 +215,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gap.runAction(pipeMovement)
         
         //physics
-        gap.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(topPipe.size.width, gapHeight))
+        gap.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(topPipe.size.width/10, gapHeight))
         
         //no gravity
         gap.physicsBody!.dynamic = false
@@ -236,7 +242,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameOverLabel.fontName = "Helvetica"
         gameOverLabel.fontSize = 30
         gameOverLabel.fontColor = UIColor.orangeColor()
-        gameOverLabel.text = "Game Over"
+        gameOverLabel.text = "Game Over. Tap to restart."
         gameOverLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
         gameOverLabel.zPosition = 100
         self.addChild(gameOverLabel)
@@ -244,14 +250,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func startGame() {
         if !gameOver {
+            
             gameActive = true
             self.speed = 1
             
+            
             //add gravity
             bird.physicsBody!.dynamic = true
-            
-            //keep creating pipes
-            _ = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(GameScene.createPipes), userInfo: nil, repeats: true)
         }
     }
     
@@ -260,5 +265,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createGameOverLabel()
         gameActive = false
         gameOver = true
+    }
+    
+    func restartGame() {
+        self.removeAllChildren()
+        score = 0
+        createBg()
+        createGround()
+        createBird()
+        createScoreLabel()
+        gameOver = false
     }
 }
