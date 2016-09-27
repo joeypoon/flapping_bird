@@ -8,6 +8,7 @@
 
 import SpriteKit
 import GameKit
+import GoogleMobileAds
 
 class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate {
     
@@ -21,6 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     var scoreLabel = SKLabelNode()
     var gameOverLabel = SKLabelNode()
     var oldPipes = SKSpriteNode()
+    var interstitial: GADInterstitial!
     
     enum ColliderType: UInt32 {
         case bird = 1
@@ -276,6 +278,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     }
     
     func startGame() {
+        requestAd()
         if !gameOver {
             
             gameActive = true
@@ -292,6 +295,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         createGameOverLabel()
         gameActive = false
         gameOver = true
+        createAndLoadInterstitial()
     }
     
     func restartGame() {
@@ -303,5 +307,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         createScoreLabel()
         createPipes()
         gameOver = false
+    }
+    
+    private func requestAd() {
+        
+    }
+    
+    private func createAndLoadInterstitial() {
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        let request = GADRequest()
+        interstitial.load(request)
     }
 }
